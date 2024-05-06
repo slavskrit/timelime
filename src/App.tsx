@@ -12,7 +12,7 @@ interface Timeline {
 
 interface BarEntry {
   startDay: number,
-  endDat: number,
+  endDay: number,
   entry: TimelineEntry
 }
 const tl: Timeline = {
@@ -31,19 +31,30 @@ function daysSinceBeginningOfTheYear(date: string): number {
 }
 
 function convertEntryToBarEntry(entry: TimelineEntry): BarEntry {
+  let s = daysSinceBeginningOfTheYear(entry.start);
+  const e = daysSinceBeginningOfTheYear(entry.end);
+  if (s > e) { // TODO: Handle case, where 01-01 can be threatened as 12-31 properly.
+    s = 1;
+  }
   return {
-    startDay: daysSinceBeginningOfTheYear(entry.start),
-    endDat: daysSinceBeginningOfTheYear(entry.end),
+    startDay: s,
+    endDay: e,
     entry: entry,
   }
 }
+const daysInYear = 365; // TODO:Handle viscosny).
+const barStyle = "h-10 border-1 absolute bg-orange-300";
 const App: Component = () => {
+  const a = convertEntryToBarEntry(tl.ranges[0]);
+  const b = (a.startDay / daysInYear * 100).toFixed(2);
+  const bb = (a.endDay / daysInYear * 100).toFixed(2);
   return (
-    <div class="container mx-auto">
-      <div class="box-border h-32 w-32 p-4 border-4 bg-orange-300">
-        h
-      </div>
-    </div>
+    <div style={{
+      "width": `${bb}%`,
+      "left": `${b}%`
+    }} class={barStyle}>
+      {a.startDay}, {a.endDay}
+    </div >
   );
 }
 
