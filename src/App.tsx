@@ -21,6 +21,12 @@ const tl: Timeline = {
       start: "2020-02-22",
       end: "2020-04-17",
       name: "tt2"
+    },
+    {
+      start: "2020-07-22",
+      end: "2020-07-23",
+      name: "oneday",
+      color: "sky"
     }
   ]
 };

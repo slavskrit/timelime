@@ -10,7 +10,8 @@ module.exports = {
   safelist: [
     'bg-purple-300',
     'bg-lime-300',
-    'bg-orange-300'
+    'bg-orange-300',
+    'bg-sky-300',
   ]
 }
 
