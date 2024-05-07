@@ -28,6 +28,11 @@ const tl: Timeline = {
       start: "2020-05-12",
       end: "2020-11-17",
       name: "tt2"
+    },
+    {
+      start: "2020-02-22",
+      end: "2020-04-17",
+      name: "tt2"
     }
   ]
 };
@@ -93,8 +98,8 @@ const App: Component = () => {
         <div class="">
           <For each={temp}>{(entry) =>
             <div style={{
-              "left": `${getOffset(entry.startDay)}%`,
-              "width": `${getOffset(entry.endDay)}%`
+              "margin-left": `${getOffset(entry.startDay)}%`,
+              "width": `${getOffset(entry.endDay - entry.startDay)}%`
             }} class={entryStyle}>
               {entry.entry.name},{entry.entry.start}, {entry.entry.end}
             </div >
