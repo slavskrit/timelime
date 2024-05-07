@@ -1,33 +1,21 @@
 import type { Component } from 'solid-js';
 import { For } from 'solid-js';
-
-interface TimelineEntry {
-  start: string,
-  end: string,
-  name: string,
-}
-
-interface Timeline {
-  ranges: TimelineEntry[],
-}
-
-interface BarEntry {
-  startDay: number,
-  endDay: number,
-  entry: TimelineEntry
-}
+import { Bar } from './Bar';
+import type { Timeline, TimelineEntry } from './Types';
 
 const tl: Timeline = {
   ranges: [
     {
       start: "2020-01-01",
       end: "2020-07-13",
-      name: "tt"
+      name: "tt",
+      color: "lime",
     },
     {
       start: "2020-05-12",
       end: "2020-11-17",
-      name: "tt2"
+      name: "tt2",
+      color: "purple",
     },
     {
       start: "2020-02-22",
@@ -78,14 +66,8 @@ function convertTimelineEntryToBarEntry(entry: TimelineEntry): BarEntry {
     entry: entry,
   }
 }
-
-function getOffset(day: number): string {
-  return (day / daysInYear * 100).toFixed(2);
-}
-
 const monthWidth = 100 / 12;
-const daysInYear = 365; // TODO:Handle viscosny).
-const entryStyle = "h-10 bg-orange-300 flex items-center opacity-75 justify-center rounded-md my-1";
+
 const App: Component = () => {
   const temp = tl.ranges.map((e) => convertTimelineEntryToBarEntry(e));
   const year = createYear();
@@ -97,12 +79,7 @@ const App: Component = () => {
       }} class="w-screen bg-[length:8.33%_4%]">
         <div class="">
           <For each={temp}>{(entry) =>
-            <div style={{
-              "margin-left": `${getOffset(entry.startDay)}%`,
-              "width": `${getOffset(entry.endDay - entry.startDay)}%`
-            }} class={entryStyle}>
-              {entry.entry.name},{entry.entry.start}, {entry.entry.end}
-            </div >
+            <Bar entry={entry} />
           }</For>
         </div>
         <div class="flex w-screen ">
