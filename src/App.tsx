@@ -16,6 +16,7 @@ interface BarEntry {
   endDay: number,
   entry: TimelineEntry
 }
+
 const tl: Timeline = {
   ranges: [
     {
@@ -31,6 +32,28 @@ const tl: Timeline = {
   ]
 };
 
+interface Moment {
+  start: number,
+  end: number,
+  name: string,
+}
+
+function createYear(): Moment[] {
+  return [
+    { "start": 1, "end": 31, "name": "Jan" },
+    { "start": 32, "end": 59, "name": "Feb" },  // Ends on day 59 in non-leap years
+    { "start": 60, "end": 90, "name": "Mar" },
+    { "start": 91, "end": 120, "name": "Apr" },
+    { "start": 121, "end": 151, "name": "May" },
+    { "start": 152, "end": 181, "name": "Jun" },
+    { "start": 182, "end": 212, "name": "Jul" },
+    { "start": 213, "end": 243, "name": "Aug" },
+    { "start": 244, "end": 273, "name": "Sep" },
+    { "start": 274, "end": 304, "name": "Oct" },
+    { "start": 305, "end": 334, "name": "Nov" },
+    { "start": 335, "end": 365, "name": "Dec" }
+  ];
+}
 function daysSinceBeginningOfTheYear(date: string): string {
   const tempDate = new Date(date);
   const dateTimestamp = new Date(tempDate.getTime()).getTime();
@@ -56,19 +79,26 @@ function getOffset(day: number): string {
 }
 
 const daysInYear = 365; // TODO:Handle viscosny).
-const barStyle = "h-10 border-1 bg-orange-300 flex items-center justify-center rounded-md m-1";
+const entryStyle = "h-10 border-1 bg-orange-300 flex items-center justify-center rounded-md m-1";
+// const monthStyle = "w-10 flex items-center justify-center rounded-md m-1";
 const App: Component = () => {
   const temp = tl.ranges.map((e) => convertTimelineEntryToBarEntry(e));
-  console.log(temp);
+  const year = createYear();
   return (
     <div>
+      <div class="flex">
+        <For each={year}>{(month) =>
+          <div class="text-xs" style={{
+            "width": `${100 / 12}%`
+          }}>{month.name}</div>
+        }</For>
+      </div>
       <For each={temp}>{(entry, i) =>
         <div style={{
           "left": `${getOffset(entry.startDay)}%`,
           "width": `${getOffset(entry.endDay)}%`
-        }} class={barStyle}>
-          {entry}
-          {entry.entry.name},{entry.entry.startDay}, {entry.entry.endDay}
+        }} class={entryStyle}>
+          {entry.entry.name},{entry.entry.start}, {entry.entry.end}
         </div >
       }</For>
     </div>
