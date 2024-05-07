@@ -80,15 +80,17 @@ function getOffset(day: number): string {
 
 const monthWidth = 100 / 12;
 const daysInYear = 365; // TODO:Handle viscosny).
-const entryStyle = "h-10 border-1 bg-orange-300 flex items-center justify-center rounded-md m-1";
-// const monthStyle = "w-10 flex items-center justify-center rounded-md m-1";
+const entryStyle = "h-10 bg-orange-300 flex items-center opacity-75 justify-center rounded-md my-1";
 const App: Component = () => {
   const temp = tl.ranges.map((e) => convertTimelineEntryToBarEntry(e));
   const year = createYear();
   return (
     <div class="p-1">
-      <div>
-        <div class="absolute w-screen">
+      <div style={{
+        "background-position-x": "4.65%",
+        "background-image": "radial-gradient(circle, #000 .5px, rgba(0, 0, 0, 0) .5px)"
+      }} class="w-screen bg-[length:8.33%_4%]">
+        <div class="">
           <For each={temp}>{(entry) =>
             <div style={{
               "left": `${getOffset(entry.startDay)}%`,
@@ -98,19 +100,17 @@ const App: Component = () => {
             </div >
           }</For>
         </div>
-
-        <div class="flex w-screen absolute">
+        <div class="flex w-screen ">
           <For each={year}>{(month) =>
             <div style={{
               "width": `${monthWidth}%`
             }}>
-              <div class="border-l-4 border-indigo-500">line</div>
-              <div class="text-xs" >{month.name}</div>
+              <div class="text-xs ml-1">{month.name}</div>
             </div>
           }</For>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
