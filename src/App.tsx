@@ -20,7 +20,7 @@ const tl: Timeline = {
   ranges: [
     {
       start: "2020-01-01",
-      end: "2020-10-13",
+      end: "2020-07-13",
       name: "tt"
     },
     {
@@ -38,7 +38,7 @@ function daysSinceBeginningOfTheYear(date: string): string {
   return Math.ceil((dateTimestamp - firstDay + 1) / 86400000).toFixed(0);
 }
 
-function convertEntryToBarEntry(entry: TimelineEntry): BarEntry {
+function convertTimelineEntryToBarEntry(entry: TimelineEntry): BarEntry {
   let s = +daysSinceBeginningOfTheYear(entry.start);
   const e = +daysSinceBeginningOfTheYear(entry.end);
   if (s > e) { // TODO: Handle case, where 01-01 can be threatened as 12-31 properly.
@@ -51,22 +51,24 @@ function convertEntryToBarEntry(entry: TimelineEntry): BarEntry {
   }
 }
 
-function getOffset(day: string): string {
+function getOffset(day: number): string {
   return (day / daysInYear * 100).toFixed(2);
 }
 
 const daysInYear = 365; // TODO:Handle viscosny).
-const barStyle = "h-10 border-1 absolute bg-orange-300";
+const barStyle = "h-10 border-1 bg-orange-300 flex items-center justify-center rounded-md m-1";
 const App: Component = () => {
+  const temp = tl.ranges.map((e) => convertTimelineEntryToBarEntry(e));
+  console.log(temp);
   return (
     <div>
-      <For each={tl.ranges}>{(entry, i) =>
+      <For each={temp}>{(entry, i) =>
         <div style={{
-          "left": "10px",
-          "left": `${getOffset(entry.start)}%`,
-          "width": `${getOffset(entry.end)}%`
+          "left": `${getOffset(entry.startDay)}%`,
+          "width": `${getOffset(entry.endDay)}%`
         }} class={barStyle}>
-          {entry.name},{entry.startDay}, {entry.endDay}
+          {entry}
+          {entry.entry.name},{entry.entry.startDay}, {entry.entry.endDay}
         </div >
       }</For>
     </div>
