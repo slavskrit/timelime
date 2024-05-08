@@ -100,13 +100,13 @@ const App: Component = () => {
     grouped.push(value);
   });
   return (
-    <div class="p-1">
+    <div>
       <div style={{
         "background-position-x": "4.65%",
         "background-image": "radial-gradient(circle, #000 .5px, rgba(0, 0, 0, 0) .5px)"
-      }} class="w-screen bg-[length:8.33%_4%]">
+      }} class="bg-[length:8.33%_4%] w-screen overflow-hidden">
         <For each={grouped}>{(group) =>
-          <div class="flex flex-row w-screen">
+          <div class="flex w-dvw">
             <For each={group}>{(entry) =>
               <Bar entry={entry} />
             }</For>
