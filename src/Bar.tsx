@@ -2,7 +2,7 @@
 import type { TimelineEntry } from "./Types"
 import { Switch, Match } from "solid-js";
 
-interface BarEntry {
+export interface BarEntry {
   startDay: number,
   endDay: number,
   entry: TimelineEntry
@@ -29,6 +29,7 @@ export function Bar(props: BarEntryProps) {
   const entry: BarEntry = props.entry;
   const shape = entry.endDay - entry.startDay < 10 ? 'arrow' : 'bar';
   return <div class='has-tooltip' style={{
+    "width": "inherit",
     "transform": `translateX(${getOffset(entry.startDay)}cqw)`,
   }}><span class='tooltip rounded shadow-xl p-2 bg-gray-100'>
       {entry.entry.start} → {entry.entry.end}

@@ -1,6 +1,6 @@
 import type { Component } from 'solid-js';
 import { For } from 'solid-js';
-import { Bar } from './Bar';
+import { Bar, BarEntry } from './Bar';
 import type { Timeline, TimelineEntry } from './Types';
 
 const tl: Timeline = {
@@ -26,6 +26,12 @@ const tl: Timeline = {
       start: "2020-07-22",
       end: "2020-07-23",
       name: "oneday",
+      color: "sky"
+    },
+    {
+      start: "2020-04-22",
+      end: "2020-04-23",
+      name: "shorty",
       color: "sky"
     }
   ]
@@ -72,22 +78,41 @@ function convertTimelineEntryToBarEntry(entry: TimelineEntry): BarEntry {
     entry: entry,
   }
 }
+
 const monthWidth = 100 / 12;
+
+function groupEntriesByColor(entries: BarEntry[]): Map<string, BarEntry[]> {
+  const map = new Map<string, BarEntry[]>();
+  entries.forEach((e) => {
+    const key = e.entry.color ?? 'grey';
+    const l = map.get(key) ?? [];
+    l.push(e);
+    map.set(key, l);
+  });
+  return map;
+}
 
 const App: Component = () => {
   const temp = tl.ranges.map((e) => convertTimelineEntryToBarEntry(e));
   const year = createYear();
+  const grouped: BarEntry[][] = [];
+  groupEntriesByColor(temp).forEach((value, key) => {
+    grouped.push(value);
+  });
   return (
     <div class="p-1">
       <div style={{
         "background-position-x": "4.65%",
         "background-image": "radial-gradient(circle, #000 .5px, rgba(0, 0, 0, 0) .5px)"
       }} class="w-screen bg-[length:8.33%_4%]">
-        <div class="">
-          <For each={temp}>{(entry) =>
-            <Bar entry={entry} />
-          }</For>
-        </div>
+        <For each={grouped}>{(group) =>
+          <div class="flex flex-row w-screen">
+            <For each={group}>{(entry) =>
+              <Bar entry={entry} />
+            }</For>
+          </div>
+        }
+        </For>
         <div class="flex w-screen ">
           <For each={year}>{(month) =>
             <div style={{
