@@ -68,7 +68,7 @@ function daysSinceBeginningOfTheYear(date: string): string {
 
 function convertTimelineEntryToBarEntry(entry: TimelineEntry): BarEntry {
   let s = +daysSinceBeginningOfTheYear(entry.start);
-  const e = +daysSinceBeginningOfTheYear(entry.end);
+  const e = Math.max(+daysSinceBeginningOfTheYear(entry.end), 365);
   if (s > e) { // TODO: Handle case, where 01-01 can be threatened as 12-31 properly.
     s = 1;
   }
